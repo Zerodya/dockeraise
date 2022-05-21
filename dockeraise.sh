@@ -8,9 +8,9 @@ fi
 
 # Install dependencies 
 echo "[:] Updating repositories..."
-sudo apt-get update > /dev/null 
+apt-get update > /dev/null 
 echo "[:] Installing dependencies..."
-sudo apt-get install \
+apt-get install \
     ca-certificates \
     curl \
     gnupg \
@@ -62,4 +62,6 @@ done
 
 # Enable Docker service at startup
 systemctl start docker.service docker.socket containerd && systemctl enable docker.service docker.socket containerd > /dev/null
+echo "[+] Docker service started and enabled to run at boot."
+
 echo "Process completed. Run 'systemctl status docker' to check Docker's status."
