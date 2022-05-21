@@ -33,7 +33,7 @@ echo "[+] Done."
 echo "[::] Updating repositories..."
 apt-get update > /dev/null
 echo "[+] Done."
-echo "[::] Installing Docker..."
+echo "[::] Installing Docker, please wait..."
 apt-get install -y docker-ce docker-ce-cli containerd.io > /dev/null
 echo "[+] Docker successfully installed:"
 docker --version
@@ -42,20 +42,21 @@ docker --version
 while true; do
     read -p "[?] Do you want to install Docker Compose? [y/n] " yn
     case $yn in
-        [Yy]* ) apt-get install -y docker-compose > /dev/null; break;;
+        [Yy]* ) echo "[::] Installing Docker Compose, please wait...";
+               apt-get install -y docker-compose > /dev/null;
+               echo "[+] Docker Compose successfully installed:"
+               docker-compose --version
+               break;;
         [Nn]* ) break;;
         * ) echo "Invalid input.";;
     esac
 done
 
-echo "[+] Docker compose installed:"
-docker-compose --version
-
 # Create Docker user
 while true; do
     read -p "[?] Do you want to create a Docker user with uid=1000 and gid=1000? [y/n] " yn
     case $yn in
-        [Yy]* ) read -p "Please choose a user/group id: " id 
+        [Yy]* ) read -p "Please choose a user/group id: " id;
                /usr/sbin/groupadd -g $id dockeruser && /usr/sbin/useradd dockeruser -u $id -g $id -m -s /bin/bash && echo "[+] Docker user created:" && id dockeruser; 
                break;;
         [Nn]* ) break;;
