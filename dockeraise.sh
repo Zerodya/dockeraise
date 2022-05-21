@@ -14,7 +14,7 @@ apt-get install -y \
     ca-certificates \
     curl \
     gnupg \
-    lsb-release > /dev/null 
+    lsb-release &> /dev/null 
 
 # Add GPG key
 curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -30,7 +30,7 @@ echo "[+] Added Docker's stable repository"
 echo "[:] Updating repositories..."
 apt-get update > /dev/null
 echo "[:] Installing Docker. Please wait..."
-apt-get install -y docker-ce docker-ce-cli containerd.io  > /dev/null 
+apt-get install -y docker-ce docker-ce-cli containerd.io  &> /dev/null 
 echo "[+] Docker successfully installed:"
 docker --version
 
@@ -39,7 +39,7 @@ while true; do
     read -p "[?] Do you want to install Docker Compose? [y/n] " yn
     case $yn in
         [Yy]* ) echo "[:] Installing Docker Compose. Please wait...";
-               apt-get install -y docker-compose  > /dev/null ;
+               apt-get install -y docker-compose  &> /dev/null ;
                echo "[+] Docker Compose successfully installed:";
                docker-compose --version;
                break;;
