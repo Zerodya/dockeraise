@@ -9,14 +9,12 @@ fi
 # Install dependencies 
 echo "[:] Updating repositories..."
 sudo apt-get update > /dev/null 
-echo "[+] Done."
 echo "[:] Installing dependencies..."
 sudo apt-get install \
     ca-certificates \
     curl \
     gnupg \
     lsb-release > /dev/null
-echo "[+] Done."
 
 # Add GPG key
 curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -31,7 +29,6 @@ echo "[+] Added Docker's stable repository"
 # Install Docker
 echo "[:] Updating repositories..."
 apt-get update > /dev/null
-echo "[+] Done."
 echo "[:] Installing Docker. Please wait, this might take a while..."
 apt-get install -y docker-ce docker-ce-cli containerd.io > /dev/null
 echo "[+] Docker successfully installed:"
@@ -65,4 +62,4 @@ done
 
 # Enable Docker service at startup
 systemctl start docker.service docker.socket containerd && systemctl enable docker.service docker.socket containerd > /dev/null
-echo "[:] Process completed. Run 'systemctl status docker' to check Docker's status."
+echo "Process completed. Run 'systemctl status docker' to check Docker's status."
