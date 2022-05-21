@@ -43,7 +43,7 @@ while true; do
     read -p "[?] Do you want to install Docker Compose? [y/n] " yn
     case $yn in
         [Yy]* ) apt-get install -y docker-compose > /dev/null; break;;
-        [Nn]* ) exit;;
+        [Nn]* ) break;;
         * ) echo "Invalid input.";;
     esac
 done
@@ -55,8 +55,10 @@ docker-compose --version
 while true; do
     read -p "[?] Do you want to create a Docker user with uid=1000 and gid=1000? [y/n] " yn
     case $yn in
-        [Yy]* ) /usr/sbin/groupadd -g 1000 dockeruser && /usr/sbin/useradd dockeruser -u 1000 -g 1000 -m -s /bin/bash && echo "[+] Docker user created:" && id dockeruser; break;;
-        [Nn]* ) exit;;
+        [Yy]* ) read -p "Please choose a user/group id: " id 
+               /usr/sbin/groupadd -g $id dockeruser && /usr/sbin/useradd dockeruser -u $id -g $id -m -s /bin/bash && echo "[+] Docker user created:" && id dockeruser; 
+               break;;
+        [Nn]* ) break;;
         * ) echo "Invalid input.";;
     esac
 done
