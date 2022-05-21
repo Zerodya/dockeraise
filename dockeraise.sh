@@ -34,7 +34,7 @@ echo "[::] Updating repositories..."
 apt-get update > /dev/null
 echo "[+] Done."
 echo "[::] Installing Docker..."
-apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin > /dev/null
+apt-get install -y docker-ce docker-ce-cli containerd.io > /dev/null
 echo "[+] Docker successfully installed:"
 docker --version
 
