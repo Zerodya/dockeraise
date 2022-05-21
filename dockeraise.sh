@@ -53,16 +53,13 @@ docker-compose --version
 
 # Create Docker user
 while true; do
-    read -p "[?] Do you want to create a Docker user with uid=1000 and gid=1000? [y/n] ?" yn
+    read -p "[?] Do you want to create a Docker user with uid=1000 and gid=1000? [y/n] " yn
     case $yn in
-        [Yy]* ) /usr/sbin/groupadd -g 1000 dockeruser && /usr/sbin/useradd dockeruser -u 1000 -g 1000 -m -s /bin/bash; break;;
+        [Yy]* ) /usr/sbin/groupadd -g 1000 dockeruser && /usr/sbin/useradd dockeruser -u 1000 -g 1000 -m -s /bin/bash && echo "[+] Docker user created:" && id dockeruser; break;;
         [Nn]* ) exit;;
         * ) echo "Invalid input.";;
     esac
 done
-
-echo "[+] Docker user created:"
-id dockeruser
 
 # Enable Docker at startup
 systemctl start docker.service docker.socket && systemctl enable docker.service docker.socket
