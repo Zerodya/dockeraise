@@ -7,10 +7,10 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Install dependencies 
-echo "[::] Updating repositories..."
+echo "[:] Updating repositories..."
 sudo apt-get update > /dev/null 
 echo "[+] Done."
-echo "[::] Installing dependencies..."
+echo "[:] Installing dependencies..."
 sudo apt-get install \
     ca-certificates \
     curl \
@@ -23,17 +23,16 @@ curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/
 echo "[+] Added Docker's GPG key"
 
 # Add repository
-echo "[::] Adding stable repository..."
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
   $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-echo "[+] Done."
+echo "[+] Added Docker's stable repository"
 
 # Install Docker
-echo "[::] Updating repositories..."
+echo "[:] Updating repositories..."
 apt-get update > /dev/null
 echo "[+] Done."
-echo "[::] Installing Docker, please wait..."
+echo "[:] Installing Docker. Please wait, this might take a while..."
 apt-get install -y docker-ce docker-ce-cli containerd.io > /dev/null
 echo "[+] Docker successfully installed:"
 docker --version
@@ -42,10 +41,10 @@ docker --version
 while true; do
     read -p "[?] Do you want to install Docker Compose? [y/n] " yn
     case $yn in
-        [Yy]* ) echo "[::] Installing Docker Compose, please wait...";
+        [Yy]* ) echo "[:] Installing Docker Compose. Please wait, this might take a while...";
                apt-get install -y docker-compose > /dev/null;
-               echo "[+] Docker Compose successfully installed:"
-               docker-compose --version
+               echo "[+] Docker Compose successfully installed:";
+               docker-compose --version;
                break;;
         [Nn]* ) break;;
         * ) echo "Invalid input.";;
@@ -64,6 +63,6 @@ while true; do
     esac
 done
 
-# Enable Docker at startup
-systemctl start docker.service docker.socket && systemctl enable docker.service docker.socket
-echo "[::] Process completed. Run 'systemctl status docker' to check Docker's status."
+# Enable Docker service at startup
+systemctl start docker.service docker.socket containerd && systemctl enable docker.service docker.socket containerd > /dev/null
+echo "[:] Process completed. Run 'systemctl status docker' to check Docker's status."
