@@ -8,7 +8,7 @@ fi
 
 # Install dependencies 
 echo "[:] Updating repositories..."
-apt-get update > /dev/null 
+apt-get update &> /dev/null 
 echo "[:] Installing dependencies..."
 apt-get install -y \
     ca-certificates \
@@ -23,12 +23,12 @@ echo "[+] Added Docker's GPG key"
 # Add repository
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
-  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list &> /dev/null
 echo "[+] Added Docker's stable repository"
 
 # Install Docker
 echo "[:] Updating repositories..."
-apt-get update > /dev/null
+apt-get update &> /dev/null
 echo "[:] Installing Docker. Please wait..."
 apt-get install -y docker-ce docker-ce-cli containerd.io  &> /dev/null 
 echo "[+] Docker successfully installed:"
@@ -61,7 +61,7 @@ while true; do
 done
 
 # Enable Docker service at startup
-systemctl start docker.service docker.socket containerd && systemctl enable docker.service docker.socket containerd > /dev/null
+systemctl start docker.service docker.socket containerd && systemctl enable docker.service docker.socket containerd &> /dev/null
 echo "[+] Docker service started and enabled to run at boot."
 
 echo "Process completed. Run 'systemctl status docker' to check Docker's status."
