@@ -9,8 +9,7 @@ Simple bash script for Debian servers to quickly install Docker. Also lets you c
 
 Just clone this repo and make the script executable
 ```
-git clone https://github.com/TheAlphaCeph/dockeraise.git
-cd dockeraise/
+curl -O https://github.com/TheAlphaCeph/dockeraise/blob/main/dockeraise.sh
 chmod +x dockeraise.sh
 ./dockeraise.sh
 ```
