@@ -7,7 +7,7 @@ Raise a full Docker setup in your server in seconds!
 
 ***
 ```
-curl -O https://github.com/TheAlphaCeph/dockeraise/blob/main/dockeraise.sh
+wget https://raw.githubusercontent.com/Zerodya/dockeraise/main/dockeraise.sh
 chmod +x dockeraise.sh
 ./dockeraise.sh
 ```
