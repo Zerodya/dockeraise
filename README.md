@@ -7,7 +7,5 @@ Simple bash script to automate the installation of Docker on Debian servers. It 
 
 ***
 ```
-wget https://raw.githubusercontent.com/Zerodya/dockeraise/main/dockeraise.sh
-chmod +x dockeraise.sh
-./dockeraise.sh
+wget -qO- https://raw.githubusercontent.com/Zerodya/dockeraise/main/dockeraise.sh | bash
 ```
