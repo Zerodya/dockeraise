@@ -6,7 +6,7 @@ Simple bash script to automate the installation of Docker on Debian servers. It 
 > Only tested on fresh Debian 11 installations. Reviewing the code is recommended.
 
 ***
-You can either download and run the script manually, or use the following cURL command:
+You can either download and run the script manually, or use the following command:
 ```
 wget -qO- https://raw.githubusercontent.com/Zerodya/dockeraise/main/dockeraise.sh | bash
 ```
