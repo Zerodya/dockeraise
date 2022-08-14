@@ -19,7 +19,7 @@ fi
 # Install dependencies 
 echo -e "${info} Updating repositories..."
 apt-get update &> /dev/null 
-echo -e "${info} Installing dependencies..."
+echo -e "${info} Installing dependencies (this might take a while)..."
 apt-get install -y \
     ca-certificates \
     curl \
@@ -39,16 +39,16 @@ echo -e "${add} Added Docker's stable repository"
 # Install Docker
 echo -e "${info} Updating repositories..."
 apt-get update &> /dev/null
-echo -e "${info} Installing Docker. Please wait..."
+echo -e "${info} Installing Docker (this might take a while)..."
 apt-get install -y docker-ce docker-ce-cli containerd.io  &> /dev/null
 echo -e "${add} Docker successfully installed:" $(docker --version)
 
 
 # Install Docker Compose
 while true; do
-    read -p "[?] Do you want to install Docker Compose? [y/n] " yn
+    read -p "[?] Do you want to install Docker-Compose? [y/n] " yn
     case $yn in
-        [Yy]* ) echo -e "${info} Installing Docker Compose. Please wait...";
+        [Yy]* ) echo -e "${info} Installing Docker-Compose (this might take a while)...";
                apt-get install -y docker-compose  &> /dev/null ;
                echo -e "${add} Docker Compose successfully installed:" $(docker-compose --version);
                break;;
