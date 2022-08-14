@@ -11,3 +11,7 @@ You can either download and run the script manually, or use the following comman
 ```
 wget -qO- https://raw.githubusercontent.com/Zerodya/dockeraise/main/dockeraise.sh | bash
 ```
+***
+### TO DO:
+- Check if machine is Debian based (apt)
+- Check if Dockeruser UID already exists
