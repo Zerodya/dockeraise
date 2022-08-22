@@ -28,20 +28,20 @@ apt-get install -y \
 
 # Add GPG key
 curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo -e "${add} Added Docker's GPG key"
+echo -e "${msg} Added Docker's GPG key"
 
 # Add repository
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
   $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list &> /dev/null
-echo -e "${add} Added Docker's stable repository"
+echo -e "${msg} Added Docker's stable repository"
 
 # Install Docker
 echo -e "${info} Updating repositories..."
 apt-get update &> /dev/null
 echo -e "${info} Installing Docker (this might take a while)..."
 apt-get install -y docker-ce docker-ce-cli containerd.io  &> /dev/null
-echo -e "${add} Docker successfully installed:" $(docker --version)
+echo -e "${msg} Docker successfully installed:" $(docker --version)
 
 
 # Install Docker Compose
@@ -50,7 +50,7 @@ while true; do
     case $yn in
         [Yy]* ) echo -e "${info} Installing Docker-Compose (this might take a while)...";
                apt-get install -y docker-compose  &> /dev/null ;
-               echo -e "${add} Docker Compose successfully installed:" $(docker-compose --version);
+               echo -e "${msg} Docker Compose successfully installed:" $(docker-compose --version);
                break;;
         [Nn]* ) break;;
         * ) ;;
