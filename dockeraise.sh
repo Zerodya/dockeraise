@@ -16,6 +16,12 @@ if [[ "$(command -v docker)" -ne "" ]]; then
         exit 1;
 fi
 
+# Check if machine is Debian-based
+if [[ "$(command -v apt)" == "" ]]; then
+        echo -e "${err} This script only works on Debian-based machines, sorry!"
+        exit 1;
+fi
+
 # Install dependencies 
 echo -e "${info} Updating repositories..."
 apt-get update &> /dev/null 
@@ -49,7 +55,7 @@ while true; do
     read -p "[?] Do you want to install Docker-Compose? [y/n] " yn
     case $yn in
         [Yy]* ) echo -e "${info} Installing Docker-Compose (this might take a while)...";
-               apt-get install -y docker-compose  &> /dev/null ;
+               apt-get install -y docker-compose  &> /dev/null;
                echo -e "${msg} Docker Compose successfully installed:" $(docker-compose --version);
                break;;
         [Nn]* ) break;;
@@ -61,8 +67,16 @@ done
 while true; do
     read -p "[?] Do you want to create a Docker user? [y/n] " yn
     case $yn in
-        [Yy]* ) read -p "Please choose an id for the new user/group: " id;
-               /usr/sbin/groupadd -g $id dockeruser && /usr/sbin/useradd dockeruser -u $id -g $id -m -s /bin/bash && echo "${add} Docker user created:" && id dockeruser; 
+        [Yy]* ) while :; do
+                read -p "Please choose an ID for the new user/group: " id;
+                if [[ id "$id" &>/dev/null ]]; then
+                        echo -e "${err} An user with the same ID already exists.";
+                        continue;
+                else
+                        /usr/sbin/groupadd -g $id dockeruser && /usr/sbin/useradd dockeruser -u $id -g $id -m -s /bin/bash && echo -e "${add} Docker user created:" && id dockeruser; 
+                        break;
+                fi
+        done
                break;;
         [Nn]* ) break;;
         * ) ;;
@@ -70,7 +84,8 @@ while true; do
 done
 
 # Enable Docker service at startup
+echo -e "${info} Starting Docker services..."
 systemctl start docker.service docker.socket containerd && systemctl enable docker.service docker.socket containerd &> /dev/null
-echo -e "${msg} Docker service started and enabled."
+echo -e "${msg} Docker services started and enabled."
 
 echo -e "${info} Process completed. Run '\033[0;36msystemctl status docker\033[m' to check Docker's status."
