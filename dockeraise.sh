@@ -3,6 +3,7 @@
 export err="\033[1;31m[-]\033[m"
 export msg="\033[1;32m[+]\033[m"
 export info="\033[0;36m[:]\033[m"
+export ask="\033[1;35m[?]\033[m"
 
 # Make sure the script is run as root
 if [[ $EUID -ne 0 ]]; then
@@ -52,7 +53,7 @@ echo -e "${msg} Docker successfully installed:" $(docker --version)
 
 # Install Docker Compose
 while true; do
-    read -p "[?] Do you want to install Docker-Compose? [y/n] " yn
+    read -p "${ask} Do you want to install Docker-Compose? [y/n] " yn
     case $yn in
         [Yy]* ) echo -e "${info} Installing Docker-Compose (this might take a while)...";
                apt-get install -y docker-compose  &> /dev/null;
@@ -65,7 +66,7 @@ done
 
 # Create Docker user
 while true; do
-    read -p "[?] Do you want to create a Docker user? [y/n] " yn
+    read -p "${ask} Do you want to create a Docker user? [y/n] " yn
     case $yn in
         [Yy]* ) while :; do
                 read -p "Please choose an ID for the new user/group: " id;
