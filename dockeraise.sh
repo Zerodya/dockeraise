@@ -25,8 +25,7 @@ fi
 
 # Remove old and incompatible packages
 echo -e "${info} Removing old and incompatible packages..."
-for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do apt-get remove $pkg >/dev/null; done &&
-echo -e "${msg} Incompatible packages removed or not found."
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do apt-get remove $pkg >/dev/null; done
 
 # Install dependencies
 echo -e "${info} Updating repositories..."
@@ -35,17 +34,13 @@ echo -e "${info} Installing dependencies..."
 apt-get install -y ca-certificates curl gnupg >/dev/null
 
 # Add GPG key
-install -m 0755 -d /etc/apt/keyrings &&
-curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg &&
-chmod a+r /usr/share/keyrings/docker-archive-keyring.gpg &&
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor --yes -o /etc/apt/keyrings/docker.gpg &&
 chmod a+r /etc/apt/keyrings/docker.gpg &&
 echo -e "${msg} Added Docker's GPG key"
 
 # Add repository
-echo \
-  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \ # Change this line if you're using a Debian based distro with a different codename
-  tee /etc/apt/sources.list.d/docker.list > /dev/null &&
+echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \ "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null &&
 echo -e "${msg} Added Docker's stable repository"
 
 # Install Docker
