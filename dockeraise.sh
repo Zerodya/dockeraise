@@ -32,7 +32,7 @@ fi
 
 # Remove old and incompatible packages
 echo -e "${info} Removing old and incompatible packages..."
-for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do apt-get remove $pkg >/dev/null; done
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do apt-get remove -y $pkg >/dev/null; done
 
 # Install dependencies
 echo -e "${info} Updating repositories..."
