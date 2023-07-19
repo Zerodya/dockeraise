@@ -27,36 +27,24 @@ fi
 echo -e "${info} Updating repositories..."
 apt-get update >/dev/null
 echo -e "${info} Installing dependencies (this might take a while)..."
-apt-get install -y ca-certificates curl gnupg lsb-release >/dev/null
+apt-get install -y ca-certificates curl gnupg >/dev/null
 
 # Add GPG key
-curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg &&
+install -m 0755 -d /etc/apt/keyrings &&
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg &&
+chmod a+r /etc/apt/keyrings/docker.gpg &&
 echo -e "${msg} Added Docker's GPG key"
 
 # Add repository
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list >/dev/null &&
+echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null &&
 echo -e "${msg} Added Docker's stable repository"
 
 # Install Docker
 echo -e "${info} Updating repositories..."
 apt-get update >/dev/null
 echo -e "${info} Installing Docker (this might take a while)..."
-apt-get install -y docker-ce docker-ce-cli containerd.io >/dev/null &&
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin >/dev/null &&
 echo -e "${msg} Docker successfully installed: \033[0;32m$(docker --version)\033[m"
-
-# Install Docker Compose
-while true; do
-    echo -e -n "${ask} "
-    read -p "Do you want to install Docker-Compose? [y/n] " yn </dev/tty
-    case $yn in
-        [Yy] ) echo -e "${info} Installing Docker-Compose (this might take a while)...";
-            apt-get install -y docker-compose  >/dev/null &&
-            echo -e "${msg} Docker Compose successfully installed: \033[0;32m$(docker-compose --version)\033[m"
-            break;;
-        [Nn] ) break;;
-        * ) ;;
-    esac
-done
 
 # Create Docker user
 while true; do
@@ -83,7 +71,7 @@ done
 
 # Enable Docker service at startup
 echo -e "${info} Starting Docker services..."
-systemctl start docker.service docker.socket containerd && systemctl enable docker.service docker.socket containerd >/dev/null &&
-echo -e "${msg} Docker services started and enabled."
+$(systemctl enable --now docker.service containerd.service >/dev/null &&
+echo -e "${msg} Docker services started and enabled.") || echo -e "${err} Could not start docker services. Try running \033[0;36msystemctl enable --now docker.service containerd.service\033[m again in a few minutes. ")
 
 echo -e "${info} Process completed. Run '\033[0;36msystemctl status docker\033[m' to check Docker's status."
