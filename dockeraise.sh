@@ -13,8 +13,15 @@ fi
 
 # Check if Docker is already installed
 if command -v docker &>/dev/null; then
-    echo -e "${err} Docker is already installed."
-    exit 1
+    while true; do
+        echo -e "${err} Docker is already installed."
+        read -p "Do you want still want to run the script? [y/n] " yn </dev/tty
+        case $yn in
+            [Yy] ) break;;
+            [Nn] ) exit 1;;
+            * ) ;;
+        esac
+    done
 fi
 
 # Check if machine runs Debian (only checks if apt-get exists, maybe needs a better implementation?)
