@@ -1,10 +1,10 @@
 # Dockeraise
-Raise a full Docker setup in your server in seconds!
+Raise a full Docker installation in your server with ease!
 
-Simple bash script to automate the installation of Docker on Debian-based servers. 
-It also lets you choose if you want to install `docker-compose`, and create a Docker user.
+Simple bash script to automate the installation of Docker (and Docker compose) on servers running Debian. 
+It also lets you create a Docker user.
 
-> Only tested on fresh Debian 11 installations. Reviewing the code is recommended.
+> Should work on both Debian 11 and 12. Only tested on fresh Debian 12 installations. Reviewing the code is recommended.
 
 ***
 You can either [download](https://github.com/Zerodya/dockeraise/blob/main/dockeraise.sh) the script and run it manually, or use the following command:
