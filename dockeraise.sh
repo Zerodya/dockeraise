@@ -40,13 +40,13 @@ chmod a+r /etc/apt/keyrings/docker.gpg &&
 echo -e "${msg} Added Docker's GPG key"
 
 # Add repository
-echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \ "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null &&
+echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null &&
 echo -e "${msg} Added Docker's stable repository"
 
 # Install Docker
 echo -e "${info} Updating repositories..."
 apt-get update >/dev/null
-echo -e "${info} Installing Docker (this might take a while)..."
+echo -e "${info} Installing Docker and Docker compose (this might take a while)..."
 apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin >/dev/null &&
 echo -e "${msg} Docker successfully installed: \033[0;32m$(docker --version)\033[m"
 
